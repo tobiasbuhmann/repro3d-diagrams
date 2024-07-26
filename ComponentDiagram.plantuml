@@ -1,0 +1,18 @@
+@startuml name ComponentDiagramm
+frame "Web Shop" {
+  [Service 1]
+  [Service n]
+}
+
+cloud "Cloud" {
+  [Print Service]
+  [Secret Service]
+  [File Service]
+}
+
+[Web Shop] --> [Print Service]
+[Print Service] --> [Secret Service]
+[Print Service] --> [File Service]
+[Print Service] --> [Printer Management Service]
+[Printer Management Service] --> [Printer Control Service]
+@enduml

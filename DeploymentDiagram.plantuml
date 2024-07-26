@@ -1,0 +1,63 @@
+@startuml name DeploymentDiagram
+
+cloud Azure {
+    node AppServicePlan {
+        node FunctionApp {
+            stack Python {
+            component PrintService
+            }
+        }
+    }
+
+    node KeyVault {
+        component SecretService
+    }
+
+    storage StorageAccount {
+        component FileService {
+            folder Prusa {
+                file PrusaFile1
+                file PrusaFileN
+            }
+
+        folder Creality {
+                file CrealityFile1
+                file CrealityFileN
+            }
+        }
+    }
+}
+
+cloud Internet {
+    node Shopify
+    node Obico {
+        component PrinterManagementService
+    }
+}
+
+rectangle LocalAreaNetwork {
+    node Router {
+        port LAN1
+    }
+    node RaspberryPi {
+        port as Ethernet
+        port Serial
+        stack OctoPrint {
+            component PrinterControlService
+        }
+        
+    }
+    hexagon Drucker {
+        port Serial
+    }
+}
+
+LAN1 -- Ethernet
+
+Shopify <--> FunctionApp
+FunctionApp --> StorageAccount
+FunctionApp --> KeyVault
+FunctionApp <--> Obico
+Obico <--> OctoPrint
+
+@enduml
