@@ -1,18 +1,38 @@
-@startuml name ComponentDiagramm
-frame "Web Shop" {
-  [Service 1]
-  [Service n]
-}
+@startuml ComponentDiagram
 
 cloud "Cloud" {
-  [Print Service]
-  [Secret Service]
-  [File Service]
+   package "PrintService" {
+    [Python]
+  }
+
+  package "SecretService" {
+    [Secret]
+  }
+
+  package "FileService" {
+    folder "Folder" {
+      [PrintFile]
+    }
+  }
+  
+  package "WebShop" {
+    [WS_Service_N]
+    [WS_Service_1]
+  }
+
+  package "PrinterManagement" {
+    [PM_Service_N]
+    [PM_Service_1]
+  }
 }
 
-[Web Shop] --> [Print Service]
-[Print Service] --> [Secret Service]
-[Print Service] --> [File Service]
-[Print Service] --> [Printer Management Service]
-[Printer Management Service] --> [Printer Control Service]
+package "PrinterControlService" {
+  [OctoPrint]
+}
+
+[WebShop] -- [PrintService]
+[FileService] -- [PrintService]
+[PrintService] -- [SecretService]
+[PrintService] -- [PrinterManagement]
+[PrinterManagement] -- [PrinterControlService]
 @enduml

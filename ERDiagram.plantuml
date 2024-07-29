@@ -1,4 +1,4 @@
-@startchen name EntityRelationshipDiagram
+@startchen EntityRelationshipDiagram
 
 entity Unternehmen {
 }

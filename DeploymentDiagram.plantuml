@@ -1,63 +1,60 @@
-@startuml name DeploymentDiagram
+@startuml DeploymentDiagram
 
-cloud Azure {
-    node AppServicePlan {
-        node FunctionApp {
-            stack Python {
-            component PrintService
-            }
-        }
+cloud Internet {
+    node Shopify {
+        component WS_Service_N
+        component WS_Service_1
     }
 
+cloud Azure {
     node KeyVault {
         component SecretService
     }
 
-    storage StorageAccount {
-        component FileService {
-            folder Prusa {
-                file PrusaFile1
-                file PrusaFileN
-            }
-
-        folder Creality {
-                file CrealityFile1
-                file CrealityFileN
-            }
+    node AppServicePlan {
+        node FunctionApp {
+            component PrintService
+            port .
         }
+    }
+
+    rectangle Monitoring {
+        node ApplicationInsights {
+        }
+
+        node LogAnalyticsWorkspace {
+        }
+    }
+
+    node StorageAccount {
+        component FileService
     }
 }
 
-cloud Internet {
-    node Shopify
     node Obico {
-        component PrinterManagementService
+        component PM_Service_N
+        component PM_Service_1
     }
 }
 
-rectangle LocalAreaNetwork {
-    node Router {
-        port LAN1
-    }
+rectangle LAN {
     node RaspberryPi {
-        port as Ethernet
-        port Serial
-        stack OctoPrint {
-            component PrinterControlService
-        }
-        
+        component OctoPrint
     }
-    hexagon Drucker {
-        port Serial
-    }
+    node Router
+    node Drucker
+    node Kamera
 }
 
-LAN1 -- Ethernet
-
-Shopify <--> FunctionApp
-FunctionApp --> StorageAccount
-FunctionApp --> KeyVault
-FunctionApp <--> Obico
-Obico <--> OctoPrint
+Shopify -left- . : TCP
+KeyVault -down- . : TCP
+StorageAccount -down- . : TCP
+FunctionApp -down- Monitoring : TCP
+ApplicationInsights -right- LogAnalyticsWorkspace : TCP
+Obico -down- . : TCP
+Obico -down- Router : TCP
+Router -right- RaspberryPi : Ethernet
+RaspberryPi -down- Drucker : Serial
+RaspberryPi -down- Kamera : Serial
 
 @enduml
