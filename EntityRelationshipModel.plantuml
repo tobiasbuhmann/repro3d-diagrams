@@ -1,0 +1,52 @@
+@startchen EntityRelationshipDiagram
+
+entity Unternehmen {
+}
+entity Drucker {
+}
+entity Auftrag {
+}
+entity Produkt {
+}
+entity Bestellung {
+}
+entity Shop {
+}
+entity Kunde {
+}
+
+relationship betreibt {
+}
+relationship zugeordnet {
+}
+relationship enthalten {
+}
+relationship resultiert_in {
+}
+relationship abwickeln {
+}
+relationship auflisten {
+}
+relationship aufgeben {
+}
+relationship verwalten {
+}
+
+aufgeben -m- Kunde
+aufgeben -n- Bestellung
+Bestellung -1- resultiert_in
+resultiert_in -n- Auftrag
+verwalten -n- Kunde
+Shop -1- verwalten
+Shop -1- auflisten
+auflisten -n- Produkt
+Produkt -n- enthalten
+Bestellung -1- enthalten
+zugeordnet -1- Auftrag
+zugeordnet -1- Drucker
+Shop -1- abwickeln
+abwickeln -n- Bestellung
+betreibt -n- Drucker
+Unternehmen -m- betreibt
+
+@endchen

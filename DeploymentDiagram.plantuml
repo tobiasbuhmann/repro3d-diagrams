@@ -1,12 +1,12 @@
 @startuml DeploymentDiagram
 
-cloud Internet {
+rectangle Internet {
     node Shopify {
         component WS_Service_N
         component WS_Service_1
     }
 
-cloud Azure {
+rectangle Azure {
     node KeyVault {
         component SecretService
     }
@@ -49,12 +49,12 @@ rectangle LAN {
 Shopify -left- . : TCP
 KeyVault -down- . : TCP
 StorageAccount -down- . : TCP
-FunctionApp -down- Monitoring : TCP
+FunctionApp -down- ApplicationInsights : TCP
 ApplicationInsights -right- LogAnalyticsWorkspace : TCP
 Obico -down- . : TCP
 Obico -down- Router : TCP
 Router -right- RaspberryPi : Ethernet
-RaspberryPi -down- Drucker : Serial
+RaspberryPi -up- Drucker : Serial
 RaspberryPi -down- Kamera : Serial
 
 @enduml

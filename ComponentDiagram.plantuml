@@ -1,38 +1,40 @@
 @startuml ComponentDiagram
 
-cloud "Cloud" {
-   package "PrintService" {
-    [Python]
-  }
-
-  package "SecretService" {
-    [Secret]
-  }
-
-  package "FileService" {
-    folder "Folder" {
-      [PrintFile]
+rectangle "Cloud" {
+    frame "PrintService" {
+        [Python]
     }
-  }
-  
-  package "WebShop" {
-    [WS_Service_N]
-    [WS_Service_1]
-  }
 
-  package "PrinterManagement" {
-    [PM_Service_N]
-    [PM_Service_1]
-  }
+    frame "SecretService" {
+        [Secret]
+    }
+
+    frame "FileService" {
+        folder "Folder" {
+        [PrintFile]
+        }
+    }
+    
+    frame "WebShop" {
+        [WS_Service_N]
+        [WS_Service_1]
+    }
+
+    frame "PrinterManagement" {
+        [PM_Service_N]
+        [PM_Service_1]
+    }
 }
 
-package "PrinterControlService" {
-  [OctoPrint]
+rectangle "LAN" {
+    frame "PrinterControlService" {
+        [OctoPrint]
+    }
 }
 
-[WebShop] -- [PrintService]
-[FileService] -- [PrintService]
-[PrintService] -- [SecretService]
+[WebShop] -down- [PrintService]
+[FileService] -up- [PrintService]
+[SecretService] -down- [PrintService]
 [PrintService] -- [PrinterManagement]
-[PrinterManagement] -- [PrinterControlService]
+[PrinterManagement] -down- [PrinterControlService]
 @enduml
