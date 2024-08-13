@@ -1,1 +1,3 @@
-# repro3d-diagrams
+# RePro3D
+## Diagrams & Cost Analysis
+### Author: Tobias Buhmann
